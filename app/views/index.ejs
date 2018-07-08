@@ -1,11 +1,57 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
+
+<head>
+  <title>
+    <%= title %>
+  </title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+  <h1>
+    <%= title %>
+  </h1>
+  <p>Welcome to
+    <%= title %>
+  </p>
+  <div>
+    <input type="text" name="work_id" id="workID">
+    <input type="text" name="admin_name" id="adminName">
+    <input type="text" name="passwd" id="passwd">
+    <input type="button" value="submit" id = "submit">
+  </div>
+  <script src="/js/sha256.js"></script>
+  <script>
+    console.log(hex_sha256("scutAdmin123456"));
+    function ajax(url, method) {
+      let xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+          if (xhr.status == 200 || xhr.status == 0) {
+            let responseText = xhr.responseText;
+            //这里便是响应报文
+            //console.log("ajax success");
+            alert(responseText);
+          }
+        }
+      }
+      let postData = {
+        work_id: document.getElementById("workID").value,
+        admin_name: document.getElementById("adminName").value,
+        passwd: hex_sha256(document.getElementById("passwd").value)
+      }
+      xhr.open(method, url);
+     // xhr.setRequestHeader("authorization", "Bearer " + document.getElementById("userId").value);
+      xhr.setRequestHeader("Content-type", "application/json");
+      xhr.send(JSON.stringify(postData));
+    }
+ 
+    let btn = document.getElementById("submit");
+    btn.addEventListener("click", function(){
+      ajax('/login/admin','POST');
+    });
+  </script>
+</body>
+
 </html>

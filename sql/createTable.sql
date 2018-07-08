@@ -7,7 +7,7 @@ use researchDatabase;
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE users (
 	user_id int auto_increment,
-    user_passwd char(44),
+    user_passwd varchar(50),
     user_role varchar(10),
     PRIMARY KEY (user_id)
 )auto_increment =1;
