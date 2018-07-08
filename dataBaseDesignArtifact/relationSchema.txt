@@ -1,0 +1,96 @@
+#数据库模式如下：(加上双引号的表示是主码)
+#工作地点
+workPlace("work_place_id", area, address)
+
+#研究室工作场所
+instituteWorkPlace("work_place_id", graduate_institute_id)
+#研究室
+graduateInstitute("graduate_institute_id", info)
+#研究室秘书
+instituteSecretary("graduate_institute_id", secretary.employee_id)
+#秘书表
+secretary("employee_id", name, gender, age, employee_time, employee_responsibility)
+
+#办公室主任
+instituteDirector("graduate_institute_id", researchPeople.employee_id, office_term, office_time)
+#研究室的研究人员
+institutePeopleList("researchPeople.employee_id", graduateInstitute.graduate_institute_id)
+#科研人员表
+researchPeople("employee_id", name, gender. age, job_title, research_direction)
+
+
+#参与项目的情况表
+projectPeopleList("researchPeople.employee_id", "researchProject.project_id", join_time, control_funding, workload)
+#科研项目表
+researchProject("project_id", principal, project_name, research_content, total_funding, start_time, finish_time)
+
+#科研项目子课题表（弱实体集）
+subTopic("researchProject.project_id", "serial_id", principal_man, time_condition, sub_topic_total_funding, technology_condition)
+
+#company 系统中有关项目的公司表
+company("company_id", company_name, company_address)
+#联系人列表
+contractPeople("contract_id", office_phone, mobile_phone, mail_address)
+#负责人列表
+principalPeople("principal_id", office_phone, mobile_phone, mail_address)
+
+#一个联系不能关联超过两个箭头？？？
+#项目合作方表
+parterList("company.company_id", "contractPeople.contra ct_id", principalPeople.principal_id, researchProject.project_id)
+#项目委托方表
+principalList("researchProject.project_id", "contractPeople.contract_id", company.company_id, principalPeople.principal_id)
+#项目监督方表
+principalList("researchProject.project_id", "contractPeople.contract_id", company.company_id, principalPeople.principal_id)
+
+#科研项目结项结果
+projectResult("researchAchievement.achievement_id", project_id)
+#科研成果贡献者
+achievementContributor("researchPeople.employee_id", achievement_id, project_id)
+#科研成果列表
+researchAchievement("achievement_id", achievement_name, get_time, rank)
+#专利统计
+patent("researchAchievement.achievement_id", "patent_id", info, type)
+#论文统计
+paper("researchAchievement.achievement_id", "paper_id", info)
+#软件著作权
+softwareCopyright("researchAchievement.achievement_id", "software_copyright_id", info)
+
+
+
+#删除冗余模式之后
+#工作地点表
+workPlace("work_place_id", area, address, graduateInstitute.graduate_institute_id)
+#研究室表
+graduateInstitute("graduate_institute_id", info, secretary.employee_id)
+#秘书表
+secretary("employee_id", name, gender, age, employee_time, employee_responsibility)
+#办公室主任,保留这张表是为了方便查询一个研究室历任主任
+instituteDirector("graduateInstitute.graduate_institute_id", researchPeople.employee_id, office_term, office_time)
+#科研人员
+researchPeople("employee_id", name, gender, age, job_title, research_direction, graduateInstitute.graduate_institute_id)
+
+#科研项目表
+researchProject("project_id", project_principal_man, project_name, research_content, total_funding, start_time, finish_time)
+#参与项目的情况表
+projectPeopleList("researchPeople.employee_id", "researchProject.project_id", join_time, control_funding, workload)
+
+
+#科研项目子课题表（弱实体集）
+subTopic("researchProject.project_id", "serial_id", principal_man, time_condition, sub_topic_total_funding, technology_condition)
+#company 系统中有关项目的公司表
+company("company_id", company_name, company_address)
+#联系人列表
+contractPeople("contract_id", office_phone, mobile_phone, mail_address)
+#负责人列表
+principalPeople("principal_id", office_phone, mobile_phone, mail_address)
+#一个联系不能关联超过两个箭头？？？
+#项目合作方表
+parterList("company.company_id", "contractPeople.contract_id", principalPeople.principal_id, researchProject.project_id)
+#项目委托方表
+principalList("researchProject.project_id", "contractPeople.contract_id", company.company_id, principalPeople.principal_id)
+#项目监督方表
+superVisionList("researchProject.project_id", "contractPeople.contract_id", company.company_id, principalPeople.principal_id)
+#科研成果列表
+researchAchievement("achievement_id", achievement_name, get_time, rank, researchProject.project_id)
+#科研成果贡献者
+achievementContributor("researchPeople.employee_id", achievement_id, project_id)
