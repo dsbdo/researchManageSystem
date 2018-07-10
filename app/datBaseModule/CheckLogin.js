@@ -60,51 +60,102 @@ let CheckLogin = {
     //总共有四种类型的用户--研究院， 秘书， 研究人员，公司, 工作场所
     //一，admin用户请求添加一个研究院
     //流程：先向user中添加一个研究院的ID，然后再将这个ID与研究院的其他信息添加进研究院表，其中userID作为研究院的主码
-    adminAddWorkPlace: function(area, place_address, graduate_institute_id){
+    adminAddWorkPlace: function(user_type, area, place_address, graduate_institute_id){
         let add_promise = new Promise(function(resolve, reject){
             let connection = connectStart();
-            connection.query(/*sql statement*/,function(err, rows, fields){
-
+            connection.query("CALL adminAddWorkPlace('"+user_type+"',"+area+",'"+place_address+"','"+graduate_institute_id+"');",function(err, rows, fields){
+                if(err) {
+                    reject(err);
+                    throw err;
+                }
+                else {
+                    resolve("success store");
+                    connectClose(connection);
+                }
             });
         });
         return add_promise;
     },
-    adminAddInstitute: function(info, secretary_id) {
+    adminAddInstitute: function(user_type, info, secretary_id) {
         let add_promise = new Promise(function(resolve, reject){
             let connection = connectStart();
-            connection.query(/*sql statement*/,function(err, rows, fields){
-
+            connection.query("CALL adminAddInstitute('"+user_type+"','"+info+"','"+secretary_id+"');",function(err, rows, fields){
+                if(err) {
+                    reject(err);
+                    throw err;
+                }
+                else {
+                    resolve("success store");
+                    connectClose(connection);
+                }
             });
         });
         return add_promise;
     },
-    adminAddSecretary: function(secretary_name, gender, age, employee_time, employee_responsibility){
+    adminAddSecretary: function(user_type, secretary_name, gender, age, employee_time, employee_responsibility){
         let add_promise = new Promise(function(resolve, reject){
             let connection = connectStart();
-            connection.query(/*sql statement*/,function(err, rows, fields){
-
+            connection.query("CALL adminAddSecretary('"+user_type+"','"+secretary_name+"',"+gender+","+age+",'"+employee_time+"','"+employee_responsibility+"');",function(err, rows, fields){
+                if(err) {
+                    reject(err);
+                    throw err;
+                }
+                else {
+                    resolve("success store");
+                    connectClose(connection);
+                }
             });
         });
         return add_promise;
     },
-    adminAddResearchPeople: function(research_people_name, gender, age, job_title, research_direction, graduate_institute_id){
+    adminAddResearchPeople: function(user_type, research_people_name, gender, age, job_title, research_direction, graduate_institute_id){
         let add_promise = new Promise(function(resolve, reject){
             let connection = connectStart();
-            connection.query(/*sql statement*/,function(err, rows, fields){
-
+            connection.query("CALL adminAddResearchPeople('"+user_type+"','"+research_people_name+"',"+gender+","+age+",'"+job_title+"','"+research_direction+"','"+graduate_institute_id+"');",function(err, rows, fields){
+                if(err) {
+                    reject(err);
+                    throw err;
+                }
+                else {
+                    resolve("success add research people");
+                    connectClose(connection);
+                }
             });
         });
         return add_promise;
     },
-    adminAddCompany: function(company_name, company_address) {
+    adminAddCompany: function(user_type, company_name, company_address) {
         let add_promise = new Promise(function(resolve, reject){
             let connection = connectStart();
-            connection.query(/*sql statement*/,function(err, rows, fields){
-
+            connection.query("CALL  adminAddCompany('"+user_type+"','"+company_name+"','"+company_address+"');",function(err, rows, fields){
+                if(err) {
+                    reject(err);
+                    throw err;
+                }
+                else {
+                    resolve("success add company");
+                    connectClose(connection);
+                }
             });
         });
         return add_promise;
     },
+    adminDeleteUser: function(work_id) {
+        let delete_promise = new Promise(function(resolve, reject){
+            let connection = connectStart();
+            connection.query("CALL deleteUser('"+work_id+"');",function(err, rows, fields){
+                if(err) {
+                    reject(err);
+                    throw err;
+                }
+                else {
+                    resolve("success delete user");
+                    connectClose(connection);
+                }
+            })
+        });
+        return delete_promise;
+    }
 
 }
 

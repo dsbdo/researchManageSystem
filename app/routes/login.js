@@ -13,12 +13,6 @@ router.post('/admin', function (req, res, next) {
             reason: "empty work_id"
         });
     }
-    // if (!req.body.admin_name) {
-    //     res.status(500).json({
-    //         result: "error",
-    //         reason: "empty admin_name"
-    //     });
-    // }
     if (!req.body.passwd || req.body.passwd.length !== 64) {
         //如果密码为空，或者不是64位，证明这就已经是一个错误的密码了
         res.status(500).json({
