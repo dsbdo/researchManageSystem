@@ -139,7 +139,7 @@ CREATE TABLE contractPeople (
 ) AUTO_INCREMENT=1;
 
 
-#联系人表
+#负责人表
 DROP TABLE IF EXISTS `principalPeople`;
 CREATE TABLE principalPeople (
     principal_id int AUTO_INCREMENT,
