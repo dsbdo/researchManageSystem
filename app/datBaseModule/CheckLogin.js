@@ -1,4 +1,3 @@
-import { start } from "repl";
 
 const mysql = require("mysql");
 
@@ -170,7 +169,28 @@ let CheckLogin = {
                     throw err;
                 }
                 else {
-                    resolve("success delete user");
+                    var results = rows[0];
+                    var row = results[0];
+                    resolve(row.out_project_id);
+                    connectClose(connection);
+                }
+            });
+        });
+        return add_promise;
+    },
+    adminAddAchievement: function(sql_statement){
+        let add_promise = new Promise(function(resolve, reject){
+            let connection =  connectStart();
+            connection.query(sql_statement, function(err, rows, fields){
+                if(err) {
+                    reject(err);
+                    throw err;
+                }
+                else {
+                    var results = rows[0];
+                    var row = results[0];
+                    resolve(row.out_achievement_id);
+                   // resolve("success delete user");
                     connectClose(connection);
                 }
             });
@@ -186,7 +206,7 @@ let CheckLogin = {
                     throw err;
                 }
                 else {
-                    resolve("success delete user");
+                    resolve("success !!!");
                     connectClose(connection);
                 }
             });
