@@ -7,70 +7,72 @@ use researchDatabase;
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE users (
 	user_id int auto_increment,
-    user_passwd varchar(50),
-    user_role varchar(10),
+    work_id char(12),
+    user_passwd varchar(64),
+    user_role varchar(30),
     PRIMARY KEY (user_id)
 )auto_increment =1;
+
 DROP TABLE IF EXISTS `secretary`;
 CREATE TABLE secretary (
-    secretary_id int AUTO_INCREMENT,
+    secretary_id char(12),
     secretary_name varchar(50),
     gender smallint,
     age smallint,
     employee_time date,
     employee_responsibility varchar(100),
     PRIMARY KEY (secretary_id)
-)AUTO_INCREMENT = 1;
+);
 
 #研究室表
 DROP TABLE IF EXISTS `graduateInstitute`;
 CREATE TABLE graduateInstitute (
-    graduate_institute_id int AUTO_INCREMENT,
+    graduate_institute_id char(12),
     info varchar(100),
-    secretary_id int ,
+    secretary_id char(12) ,
     PRIMARY KEY (graduate_institute_id),
     FOREIGN KEY (secretary_id) references secretary(secretary_id)
-)AUTO_INCREMENT = 1;
+);
 
 
 
 DROP TABLE IF EXISTS `workPlace`;
 CREATE TABLE workPlace (
-    work_place_id int AUTO_INCREMENT,
+    work_place_id char(12),
     area real,
     place_address varchar(50),
-    graduate_institute_id int,
+    graduate_institute_id char(12),
     PRIMARY KEY(work_place_id) ,
-    FOREIGN KEY(graduate_institute_id) references graduateInstitute( graduate_institute_id )
-)AUTO_INCREMENT = 1;
+    FOREIGN KEY(graduate_institute_id) references graduateInstitute(graduate_institute_id)
+);
 
 #科研人员表
-
 DROP TABLE IF EXISTS `researchPeople`;
 CREATE TABLE researchPeople (
-    research_people_id int AUTO_INCREMENT,
+    research_people_id char(12),
     research_people_name varchar(50),
     gender smallint,
     age smallint,
     job_title varchar(50),
     research_direction varchar(50),
-    graduate_institute_id int,
+    graduate_institute_id char(12),
     PRIMARY KEY (research_people_id),
     FOREIGN KEY (graduate_institute_id) references graduateInstitute (graduate_institute_id)
-)AUTO_INCREMENT = 1;
+);
+
+
 
 #办公室主任表
-
 DROP TABLE IF EXISTS `instituteDirector`;
 CREATE TABLE instituteDirector (
-    graduate_institute_id int AUTO_INCREMENT,
-    research_people_id int,
+    graduate_institute_id char(12),
+    research_people_id char(12),
     office_time date,
     office_term real,
     PRIMARY KEY (graduate_institute_id, research_people_id),
     FOREIGN KEY (graduate_institute_id) references graduateInstitute(graduate_institute_id),
     FOREIGN KEY (research_people_id) references researchPeople(research_people_id)
-)AUTO_INCREMENT = 1;
+);
 
 
 
@@ -78,19 +80,20 @@ CREATE TABLE instituteDirector (
 DROP TABLE IF EXISTS `researchProject`;
 CREATE TABLE researchProject (
     project_id int AUTO_INCREMENT,
-    project_principal_man int,
+    project_principal_man char(12),
     projetc_name varchar(100),
     research_content varchar(100),
     total_funding double precision,
     start_time date,
     finish_time date,
-    PRIMARY KEY (project_id)
+    PRIMARY KEY (project_id),
+     FOREIGN KEY (project_principal_man) references researchPeople(research_people_id)
 )AUTO_INCREMENT = 1;
 
 #参与项目的情况
 DROP TABLE IF EXISTS `projectPeopleList`;
 CREATE TABLE projectPeopleList (
-    research_people_id int,
+    research_people_id char(12),
     project_id int,
     join_time date,
     control_funding double precision,
@@ -106,19 +109,20 @@ DROP TABLE IF EXISTS `subTopic`;
 CREATE TABLE subTopic(
     project_id int,
     serial_id int,
-    principal_man int,
+    principal_man char(12),
     time_condition varchar(20),
     sub_topic_total_funding double precision,
     technology_condition varchar(50),
     PRIMARY KEY (project_id, serial_id),
     FOREIGN KEY (project_id) references researchProject(project_id),
     FOREIGN KEY (principal_man) references researchPeople(research_people_id)
+    
 );
 
 #公司表
 DROP TABLE IF EXISTS `company`;
 CREATE TABLE company (
-    company_id int,
+    company_id char(12),
     company_name varchar(100),
     company_address varchar(100),
     PRIMARY KEY(company_id)
@@ -132,7 +136,7 @@ CREATE TABLE contractPeople (
     mobile_phone varchar(20),
     mail_address varchar(20),
     PRIMARY KEY (contract_id)
-);
+) AUTO_INCREMENT=1;
 
 
 #联系人表
@@ -143,13 +147,13 @@ CREATE TABLE principalPeople (
     mobile_phone varchar(20),
     mail_address varchar(20),
     PRIMARY KEY (principal_id)
-);
+) AUTO_INCREMENT=1;
 
 #项目合作方
 DROP TABLE IF EXISTS `parterList`;
 CREATE TABLE parterList (
     project_id int,
-    company_id int,
+    company_id char(12),
     contract_id int,
     principal_id int,
     PRIMARY KEY (project_id, company_id, contract_id),
@@ -163,7 +167,7 @@ CREATE TABLE parterList (
 DROP TABLE IF EXISTS `principalList`;
 CREATE TABLE principalList (
     project_id int,
-    company_id int,
+    company_id char(12),
     contract_id int,
     principal_id int,
     PRIMARY KEY (project_id, company_id, contract_id),
@@ -176,7 +180,7 @@ CREATE TABLE principalList (
 DROP TABLE IF EXISTS `superVisionList`;
 CREATE TABLE superVisionList (
     project_id int,
-    company_id int,
+    company_id char(12),
     contract_id int,
     principal_id int,
     PRIMARY KEY (project_id, company_id, contract_id),
@@ -206,7 +210,7 @@ DROP TABLE IF EXISTS `achievementContributor`;
 CREATE TABLE achievementContributor (
     achievement_id int,
     project_id int,
-    research_people_id int,
+    research_people_id char(12),
     PRIMARY KEY (achievement_id),
     FOREIGN KEY (achievement_id) references researchAchievement(achievement_id),
     FOREIGN KEY (project_id) references researchProject(project_id),
