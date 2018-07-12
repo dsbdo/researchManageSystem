@@ -52,12 +52,12 @@ delimiter ;
 #添加研究所
 drop procedure if exists adminAddInstitute;
 delimiter $$
-create procedure adminAddInstitute(IN user_type varchar(30),IN info varchar(100), IN secretary_id char(12))
+create procedure adminAddInstitute(IN user_type varchar(30),IN local_name varchar(50), IN info varchar(100), IN secretary_id char(12))
 begin
 	declare workId char(12);
     call addUser(user_type, @out);
 	SET workId = @out;
-    insert into graduateInstitute values (workId, info, secretary_id);
+    insert into graduateInstitute values (workId, local_name, info, secretary_id);
 end
 $$
 delimiter ;
@@ -121,17 +121,19 @@ delimiter ;
 #添加项目成果表
 drop procedure if exists adminAddAchievement;
 delimiter $$
-create procedure adminAddAchievement (IN local_name varchar(50), IN local_time date, IN rank int, IN local_project_id int, IN local_type varchar(20), IN local_info varchar(100), IN local_patent_type varchar(20))
+create procedure adminAddAchievement (IN local_name varchar(50), IN local_time date, IN local_rank int, IN local_project_id int, IN local_type varchar(20), IN local_info varchar(100), IN local_patent_type varchar(20), OUT out_achievement_id int)
 begin
 	insert into researchachievement values(NULL, local_name, local_time, local_rank, local_project_id, local_type, local_info, local_patent_type);
+    SET out_achievement_id = (select max(researchachievement.achievement_id) from researchachievement);
+    select out_achievement_id;
 end
 $$
 delimiter ;
 drop procedure if exists adminAddAhievementContributor;
 delimiter $$
-create procedure adminAddAhievementContributor (IN local_project_id int, local_research_people_id char(12))
+create procedure adminAddAhievementContributor (IN local_achievement_id int, IN local_project_id int, local_research_people_id char(12))
 begin 
-	insert into achievementcontributor values(NULL, local_project_id, local_research_people_id);
+	insert into achievementcontributor values(local_achievement_id, local_project_id, local_research_people_id);
 end
 $$
 delimiter ;
@@ -165,6 +167,7 @@ begin
 end
 $$
 delimiter ;
+
 #添加委托方
 drop procedure if exists adminAddPrincipalList;
 delimiter $$
@@ -198,12 +201,15 @@ delimiter ;
 #添加项目
 drop procedure if exists adminAddResearchProject;
 delimiter $$
-create procedure adminAddResearchProject(IN local_principal_people_id char(12), IN local_project_name varchar(100), IN local_research_content varchar(100), IN local_total_funding double, IN local_start_time date, IN local_finish_time date)
+create procedure adminAddResearchProject(IN local_principal_people_id char(12), IN local_project_name varchar(100), IN local_research_content varchar(100), IN local_total_funding double, IN local_start_time date, IN local_finish_time date, OUT out_project_id int)
 begin
 	insert into researchproject values(NULL, local_principal_people_id, local_project_name, local_research_content, local_total_funding, local_start_time ,local_finish_time);
+    SET out_project_id = (select max(researchproject.project_id) from researchproject);
+    select out_project_id;
 end
 $$
 delimiter ;
+
 #添加参与项目情况表
 drop procedure if exists adminAddProjectPeopleList;
 delimiter $$

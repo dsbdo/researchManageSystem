@@ -211,7 +211,7 @@ CREATE TABLE achievementContributor (
     achievement_id int,
     project_id int,
     research_people_id char(12),
-    PRIMARY KEY (achievement_id),
+    PRIMARY KEY (achievement_id, research_people_id),
     FOREIGN KEY (achievement_id) references researchAchievement(achievement_id),
     FOREIGN KEY (project_id) references researchProject(project_id),
     FOREIGN KEY (research_people_id) references researchPeople(research_people_id)

@@ -6,3 +6,16 @@ body {
 a {
   color: #00B7FF;
 }
+
+
+#add_institute_btn{
+  width:100px;
+  margin: auto;
+}
+.add-institute {
+  margin-top: 20px;
+}
+.radio-btn {
+  border: 1px solid #ccc;
+  padding-left: 20px;
+}

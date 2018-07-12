@@ -77,10 +77,10 @@ let CheckLogin = {
         });
         return add_promise;
     },
-    adminAddInstitute: function(user_type, info, secretary_id) {
+    adminAddInstitute: function(user_type, institute_name ,info, secretary_id) {
         let add_promise = new Promise(function(resolve, reject){
             let connection = connectStart();
-            connection.query("CALL adminAddInstitute('"+user_type+"','"+info+"','"+secretary_id+"');",function(err, rows, fields){
+            connection.query("CALL adminAddInstitute('"+user_type+"','"+institute_name+"','"+info+"','"+secretary_id+"');",function(err, rows, fields){
                 if(err) {
                     reject(err);
                     throw err;

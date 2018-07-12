@@ -12,7 +12,11 @@ alter table users add user_name varchar(20);
 
 #增加字段 年份四位-预留字段4位-研究人员编号
 alter table users add work_id char(12);
+alter table graduateinstitute add institute_name varchar(50);
+alter table graduateinstitute change institute_name institute_name varchar(50) after graduate_institute_id;
+select * from graduateinstitute;
 
+update graduateinstitute set institute_name = "blockchain institute  ff" where graduate_institute_id = '201899900020';
 #修改字段顺序
 alter table users change work_id work_id char(12) after user_id;
 #修改字段属性
@@ -53,18 +57,56 @@ CALL adminAddInstitute('test', 'blockchain', '201899900004');
 select *
 from graduateinstitute;
 
-CALL adminAddResearchPeople('test','research_1', 1, 35, 'doctor', 'blockchain', '201899900007');
+CALL adminAddResearchPeople('researchPeople','Doctor Mu', 1, 150, 'phlisosphe', 'emmmmm decenter database', '201899900007');
 CALL adminAddWorkPlace('workPlace',200, 'china scut C10', '201899900007');
-CALL adminAddCompany('test','dsbdoCompany', 'scut south campus c10');
+CALL adminAddCompany('company','real company second', 'scut south campus c10');
 
+
+
+insert into principalpeople values(NULL, '129 0000 0000', '129 0000 0000', '129 0000 0000@qq.com');
+
+insert into contractpeople values(NULL, '444 1111 1111', '444 1111 1111', '444 1111 1111@qq.com');
 select *
 from researchpeople;
 select *
 from workplace;
+select current_date();
 
 select *
 from users;
-delete from workplace where work_place_id = '201800200001';
+delete from workplace where work_place_id = '201800200002';
 select *
 from company;
 insert into workplace values('2018');
+
+
+
+select *
+from graduateinstitute;
+
+select *
+from researchpeople;
+
+
+delete from researchproject where project_id =2;
+select *
+from researchproject;
+
+select * 
+from projectpeoplelist;
+use researchdatabase;
+
+select *
+from principallist;
+select *
+from parterlist;
+
+select * from supervisionlist;
+
+select *
+from contractPeople;
+select *
+from researchachievement;
+
+select *
+from achievementcontributor;
