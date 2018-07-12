@@ -160,10 +160,10 @@ let CheckLogin = {
     //下面应该是组合几个请求的流程， 例如添加一个项目是会涉及到几张表的插入与更改的
     //1、添加一个项目-->添加合作方与委托方与监管方-->添加联系人与负责人-->子课题-->科研人员参加科研的联系表
     //2、添加一个科研成果-->添加贡献者表，这里面还有一些业务规则
-    adminAddProject: function(principal_id, project_name, research_content, funding, start_time, finish_time){
+    adminAddProject: function(sql_statement){
         let add_promise = new Promise(function(resolve, reject){
             let connection =  connectStart();
-            connection.query("CALL adminAddResearchProject('"+principal_id+"','"+project_name+"','"+research_content+"'," + funding + ",'"+start_time+"','"+finish_time+"');", function(err, rows, fields){
+            connection.query(sql_statement, function(err, rows, fields){
                 if(err) {
                     reject(err);
                     throw err;

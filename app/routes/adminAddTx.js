@@ -23,8 +23,9 @@ router.post('/addProject', function(req, res, next){
     }
     else {
         //还需要把负责人添加到科研参与表中去
-        let sql_statement = "CALL adminAddResearchProject('"+req.body.principal_people_id+"','" +req.body.project_name+"','"+ req.body.research_content + "'," + req.body.total_funding + ",'" + req.body.start_time+ "','"+req.body.finish_time+"');";
-        let add_promise = CheckLogin.adminAddSql(sql_statement);
+      //  "CALL adminAddResearchProject('"+principal_id+"','"+project_name+"','"+research_content+"'," + funding + ",'"+start_time+"','"+finish_time+"');"
+        let sql_statement = "CALL adminAddResearchProject('"+req.body.principal_people_id+"','" +req.body.project_name+"','"+ req.body.research_content + "'," + req.body.total_funding + ",'" + req.body.start_time+ "','"+req.body.finish_time+"',@out);";
+        let add_promise = CheckLogin.adminAddProject(sql_statement);
         add_promise.then(function(project_id){
 
             sql_statement = "CALL adminAddProjectPeopleList('"+req.body.principal_people_id +"','" +project_id+"','"+ req.body.start_time + "'," + req.body.principal_funding + "," + req.body.project_workload +");";
@@ -60,6 +61,10 @@ router.post('/addProjectPrinSuperCompany', function(req, res, next){
     }
     if(req.body.type == "principal"){
         let add_promise_array = [];
+        console.log("principal people list");
+        console.log(req.body.contract_id_array);
+        console.log(req.body.contract_id_array[0]);
+        console.log(req.body.contract_id_array[1]);
         for(let i = 0; i < req.body.contract_id_array.length; i++) {
             console.log("req.body.contract_id_array[i]", req.body.contract_id_array[i]);
             let sql_statement = "CALL adminAddPrincipalList("+req.body.project_id + ",'" + req.body.company_id + "'," + req.body.contract_id_array[i] + "," +req.body.principal_id + ");";
@@ -112,10 +117,11 @@ router.post('/addParterList', function(req, res, next){
 
 //添加一个科研成果，贡献者应该是一起加起来的,科研成果ID， 项目ID， 研究人员ID
 router.post('/addAchievement', function(req,res, next){
+    //贡献者仅能是参与该项目的科研人员
     if(!req.body.contributor_array || !req.body.achievement_name || !req.body.get_time || !req.body.rank || !req.body.project_id || !req.body.type || !req.body.info || !req.body.patent_type) {
         res.status('500').send("error in paras");
     }
-    let sql_statement = "CALL adminAddAchievement('"+req.body.achievement_name+"','" +req.body.get_time+"',"+ req.body.rank + ",'" + req.body.project_id+ "','" + req.body.type+ "','"+req.body.info+ "','"+ req.body.patent_type +"');";
+    let sql_statement = "CALL adminAddAchievement('"+req.body.achievement_name+"','" +req.body.get_time+"',"+ req.body.rank + ",'" + req.body.project_id+ "','" + req.body.type+ "','"+req.body.info+ "','"+ req.body.patent_type +"',@out);";
     let add_promise = CheckLogin.adminAddAchievement(sql_statement);
     add_promise.then(function(achievement_id){
         let add_promise_array = [];
