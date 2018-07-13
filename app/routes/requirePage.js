@@ -10,5 +10,23 @@ console.log(__dirname);
 router.get('/addSecretary', function(req,res,next){
     let file_position = path.resolve('./public/html/addSecretary.html');
     res.sendFile(file_position);
+});
+router.get("/addWorkPlace", function(req,res, next){
+    let file_position = path.resolve('./public/html/addWorkPlace.html');
+    res.sendFile(file_position);
+});
+router.get('/addResearchPeople', function(req, res, next){
+    let file_position = path.resolve('./public/html/addResearchPeople.html');
+    res.sendFile(file_position);
+});
+
+router.get('/addProject', function(req, res, next){
+    let file_position = path.resolve('./public/html/addProject.html');
+    res.sendFile(file_position);
+});
+
+router.get("/addAchievement", function(req, res, next){
+    let file_position = path.resolve('./public/html/addAchievement.html');
+    res.sendFile(file_position);
 })
 module.exports = router;
