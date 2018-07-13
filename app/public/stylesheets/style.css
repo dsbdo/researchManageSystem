@@ -17,5 +17,31 @@ a {
 }
 .radio-btn {
   border: 1px solid #ccc;
-  padding-left: 20px;
+  padding-left: 48px;
+}
+
+#project_wrap {
+  margin-bottom: 48x;
+}
+
+#principal_list {
+  margin-bottom: 48px;
+}
+
+#supervision_list {
+  margin-bottom: 48px;
+}
+
+#parter_list {
+  margin-bottom: 48px;
+}
+.add-contract-area {
+  margin-top:20px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding-bottom: 20px;
+}
+.input-group {
+  margin-top: 20px;
 }

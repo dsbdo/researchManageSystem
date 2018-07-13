@@ -57,7 +57,7 @@ CALL adminAddInstitute('test', 'blockchain', '201899900004');
 select *
 from graduateinstitute;
 
-CALL adminAddResearchPeople('researchPeople','Doctor Mu', 1, 150, 'phlisosphe', 'emmmmm decenter database', '201899900007');
+CALL adminAddResearchPeople('researchPeople','Doctor Mu', 1, 150, 'phlisosphe', 'emmmmm decenter database', '201800300002');
 CALL adminAddWorkPlace('workPlace',200, 'china scut C10', '201899900007');
 CALL adminAddCompany('company','real company second', 'scut south campus c10');
 
@@ -78,7 +78,8 @@ delete from workplace where work_place_id = '201800200002';
 select *
 from company;
 insert into workplace values('2018');
-
+select *
+from secretary;
 
 
 select *
@@ -105,8 +106,37 @@ select * from supervisionlist;
 
 select *
 from contractPeople;
+
+
 select *
 from researchachievement;
 
 select *
 from achievementcontributor;
+
+use researchDatabase;
+select *
+from graduateinstitute;
+select *
+from workplace;
+
+
+
+select *
+from  principallist;
+select *
+from principalpeople;
+select *
+from contractpeople;
+
+select *
+from company;
+select *
+from researchpeople;
+select *
+from projectpeoplelist;
+select *
+from researchproject;
+
+select *
+from supervisionlist;

@@ -5,15 +5,7 @@ const CheckLogin = require('./../datBaseModule/CheckLogin.js');
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
-// router.post('/addProject', function(req, res, next){
-//     if(!req.body.principal_people_id || !req.body.project_name || !req.body.research_content || !req.body.funding || !req.body.start_time || !req.body.finish_time) {
-//         res.status('500').send("error in paras");
-//     }
-//    let add_promise =  CheckLogin.adminAddProject(req.body.principal_people_id, req.body.project_name, req.body.research_content, req.body.funding, req.body.start_time, req.body.finish_time);
-//    add_promise.then(function(message){
-//        res.send(message);
-//    })
-// });
+
 
 
 //这里可以添加一个项目，项目参与人应该是后面慢慢添加进来的
