@@ -104,7 +104,7 @@ router.post('/addParterList', function(req, res, next){
             res.send("success");
         });
     }
-})
+});
 
 
 //添加一个科研成果，贡献者应该是一起加起来的,科研成果ID， 项目ID， 研究人员ID
@@ -127,4 +127,19 @@ router.post('/addAchievement', function(req,res, next){
         })
     });
 });
+
+router.post('/addInstituteDirector', function(req, res, next){
+    if(!req.body.institute_id || !req.body.research_people_id || !req.body.office_time || !req.body.office_term){
+        res.status('500').send("error in paras");
+    }
+    else {
+        let sql_statement = "CALL adminAddInstituteDirector('" + req.body.institute_id + "','" + req.body.research_people_id + "','" + req.body.office_time + "',"+req.body.office_term+");";
+        let add_promise = CheckLogin.adminAddSql(sql_statement);
+        add_promise.then(function(message){
+            res.send(message);
+        });
+
+    }
+});
+
 module.exports = router;

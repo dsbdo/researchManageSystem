@@ -2,23 +2,7 @@
 (function () {
     let nav_item_array = document.getElementsByClassName("nav-item");
 
-    //查看相关信息的
-    let institute_info_id = document.getElementById("institute_info_id");
-    let work_place_info_id = document.getElementById("work_place_info_id");
-    let secretary_info_id = document.getElementById("secretary_info_id");
-    let institute_director_info_id = document.getElementById("institute_director_info_id");
-    let research_people_info_id = document.getElementById("research_people_info_id");
-    let project_info_id = document.getElementById("project_info_id");
-    let achievement_info_id = document.getElementById("achievement_info_id");
-    //添加相关事件监听
-    institute_info_id.addEventListener("click", function () {
-        for (let i = 0; i < nav_item_array.length; i++) {
-            nav_item_array[i].setAttribute("class", "nav-item");
-        }
-        institute_info_id.setAttribute("class", "active nav-item");
-        //发起http请求
 
-    });
 
     //添加信息
     let add_institute_id = document.getElementById("add_institute_id");
@@ -28,6 +12,8 @@
  
     let add_achievement_id = document.getElementById("add_achievement_id");
     let share_page_content = document.getElementById("page_content_id");
+    let add_institute_director_id = document.getElementById("add_institute_director_id");
+
     let share_post_data = {};
     //添加研究机构
     add_institute_id.addEventListener("click", function () {
@@ -171,9 +157,90 @@
 
     //添加科研成果
     add_achievement_id.addEventListener("click", function(){
-
+        activeNavItem();
+        add_achievement_id.setAttribute('class', 'active nav-item');
+        let post_data = {};
+        ajax("/requirePage/addAchievement", "GET", post_data, updatePageAchievement);
     });
-    
+
+
+    //添加研究室主任
+    add_institute_director_id.addEventListener("click", function(){
+        activeNavItem();
+        add_institute_director_id.setAttribute('class', 'active nav-item');
+        let post_data = {};
+
+        ajax("/requirePage/addInstituteDirector", "GET", post_data, updatePageDirector);
+    });
+
+
+
+
+    function updatePageAchievement(inner_content)  {
+        let old_page = inner_content;
+        //share_page_content.innerHTML = inner_content;
+        document.getElementById("page_content_id").innerHTML = inner_content;
+        addContributor();
+        addAchievement();
+   
+
+    }
+    function addAchievement(){
+        document.getElementById("add_achievement_btn_id").addEventListener("click", function(){
+            let contributor = [];
+            let $contributor = $("#achievement_contributor_list .contributor-list");
+            for(let i = 0; i < $contributor.length; i++) {
+                contributor.push($contributor[i].value);
+            }
+        
+            console.log(contributor);
+            let post_data = {
+                "achievement_name": document.getElementById("achievement_name_id").value,
+                "get_time":document.getElementById("achievement_get_time_id").value,
+                "rank":document.getElementById("achievement_rank_id").value,
+                "project_id": document.getElementById("achievement_project_id").value,
+                "type": document.getElementById("achievement_type_id").value,
+                "info": document.getElementById("achievement_info_id_2").value,
+                "patent_type": document.getElementById("achievement_patent_type_id").value,
+                "contributor_array": contributor
+            }
+            function updatePageSecond() {
+                return ;
+            }
+            ajax("/adminAddTx/addAchievement", "POST", post_data, updatePageSecond);
+        })
+    }
+    function addContributor(){
+        document.getElementById("add_contributor_id").addEventListener("click", function(){
+            let achievement_contributor_list = document.getElementById("achievement_contributor_list");
+            let input_group = document.createElement("div");
+            input_group.setAttribute("class", "input-group");
+            input_group.innerHTML= '<span class="input-group-addon" id="basic-addon1">贡献者编号</span>'+
+            '<input type="number" class="form-control  contributor-list" placeholder="Username" aria-describedby="basic-addon1">';
+            achievement_contributor_list.appendChild(input_group);
+        });
+    }
+
+
+    function updatePageDirector(inner_content){
+        let old_page = inner_content;
+        //share_page_content.innerHTML = inner_content;
+        document.getElementById("page_content_id").innerHTML = inner_content;
+        addInstituteDirector();
+    }
+    function addInstituteDirector() {
+        document.getElementById("add_institute_director_btn_id").addEventListener("click", function(){
+            let post_data = {
+                "institute_id": document.getElementById("director_institute_id").value,
+                "research_people_id": document.getElementById("director_research_people_id").value,
+                "office_time": document.getElementById("director_office_date").value,
+                "office_term": document.getElementById("director_office_term").value
+            }
+            function updatePageSecond() { return ;}
+            ajax("/adminAddTx/addInstituteDirector","POST", post_data,updatePageSecond)
+        });
+    }
+
 
 
 

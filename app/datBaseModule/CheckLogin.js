@@ -212,6 +212,26 @@ let CheckLogin = {
             });
         });
         return add_promise;
+    },
+    adminGetSql: function(sql_statement){
+        let get_promise = new Promise(function(resolve, reject){
+            let connection =  connectStart();
+            connection.query(sql_statement, function(err, rows, fields){
+                if(err) {
+                    reject(err);
+                    throw err;
+                }
+                else {
+                    // for(let i = 0; i < rows.length; i++) {
+                    //     console.log(rows[i]);
+                    // }
+                    // console.log(fields);
+                    resolve(rows[0]);
+                    connectClose(connection);
+                }
+            });
+        });
+        return get_promise;
     }
 }
 
